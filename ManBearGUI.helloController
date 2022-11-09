@@ -1,0 +1,15 @@
+package edu.arapahoe.csc1060.mvb.gui.manvsbeargui.manbeargui;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.shape.Circle;
+
+public class HelloController {
+    @FXML
+    private Circle smartCircle;
+
+    @FXML
+    protected void changeColorToGreen() {
+        System.out.println("ATTACK");
+    }
+}
