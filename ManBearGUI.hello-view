@@ -3,32 +3,52 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="299.0" prefWidth="323.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.arapahoe.csc1060.mvb.gui.manvsbeargui.manbeargui.HelloController">
+<VBox alignment="CENTER" prefHeight="350.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.arapahoe.csc1060.mvb.gui.manvsbeargui.manbeargui.HelloController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
+   <HBox disable="true" prefHeight="100.0" prefWidth="200.0">
       <children>
-      <HBox prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <Label text="heal: " />
-            <Label text="hp:" />
-            <Label text="heal count" />
-            <Label text="hp count" />
-            <Label text="Man Vs Bear" />
-         </children>
-      </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <Button mnemonicParsing="false" onAction="#changeColorToGreen" text="Attack" />
-            <Button mnemonicParsing="false" text="Heal" />
-         </children>
-      </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <Label text="Player heals" />
-            <Label text="Player attacks" />
-         </children>
-      </HBox>
-   </children>
+         <Label contentDisplay="CENTER" text="Heal:">
+            <HBox.margin>
+               <Insets right="5.0" />
+            </HBox.margin></Label>
+         <Label fx:id="healCounter" contentDisplay="CENTER" text="1">
+            <HBox.margin>
+               <Insets right="10.0" />
+            </HBox.margin></Label>
+         <Label text="HP:" translateX="-50.0" translateY="20.0" wrapText="true">
+            <HBox.margin>
+               <Insets right="5.0" />
+            </HBox.margin>
+         </Label>
+         <Label fx:id="HPreset" text="500" translateX="-50.0" translateY="20.0">
+            <HBox.margin>
+               <Insets />
+            </HBox.margin></Label>
+         <Label text="Man Vs Bear" translateX="100.0">
+            <font>
+               <Font size="50.0" />
+            </font>
+         </Label>
+      </children></HBox>
+   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+      <children>
+          <Button contentDisplay="CENTER" onAction="#Attack" text="Attack">
+            <HBox.margin>
+               <Insets right="10.0" />
+            </HBox.margin></Button>
+         <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" onAction="#Heal" text="Heal">
+            <HBox.margin>
+               <Insets right="10.0" />
+            </HBox.margin></Button>
+      </children>
+   </HBox>
+   <HBox prefHeight="100.0" prefWidth="200.0">
+      <children>
+         <Label fx:id="choice" layoutX="10.0" layoutY="10.0" />
+      </children>
+   </HBox>
 </VBox>
