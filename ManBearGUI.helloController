@@ -1,8 +1,10 @@
-package edu.arapahoe.csc1060.mvb.gui.manvsbeargui.manbeargui;
+package edu.arapahoe.csc1060.mvb.gui.manvsbeargui.launcher.launcher;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+
+import java.util.Random;
 
 public class HelloController {
     @FXML
@@ -14,26 +16,46 @@ public class HelloController {
     @FXML
     private Button healButton;
     @FXML
-    private Button grid;
+    private Button attackButton;
+    @FXML
+    private Label strike;
+    @FXML
+    private Label bear;
+    @FXML
+    private Label playerName;
+    @FXML
 
 
+    Random rand = new Random();
+    int reset = 500;
+    int HP = 500;
+    int bearHP = 500;
 
     @FXML
     protected void Attack() {
-        choice.setText("Player attacks with a strength of 15.\nBear attacks with a strength of 65.");
-        HPreset.setText("435");
+        int attack = rand.nextInt(50, 101);
+        int hit = rand.nextInt(50, 101);
+            strike.setText("You strike " + hit + " to the bear.");
+            bear.setText(String.valueOf(bearHP = bearHP - hit));
+            if (bearHP <= 0) {
+                bear.setText("0");
+                attackButton.setDisable(true);
+            }
+            choice.setText("The bear attacks with a strength of " + attack + ".");
+            HPreset.setText(String.valueOf(HP = HP - attack));
+            if (HP <= 0) {
+                HPreset.setText("0");
+                attackButton.setDisable(true);
+            }
     }
 
     @FXML
     protected void Heal() {
-        choice.setText("Player heals and now has 500 HP.");
+        strike.setText("Player heals and now has 500 HP.");
+        choice.setText("");
         HPreset.setText("500");
         healCounter.setText("0");
         healButton.setDisable(true);
-    }
-
-    @FXML
-    protected void Grey() {
-        grid.setStyle("-fx-background-color: #808080;");
+        HPreset.setText(String.valueOf(HP = reset));
     }
 }
