@@ -20,9 +20,9 @@
             </Label>
          </children>
       </HBox>
-      <HBox alignment="TOP_CENTER" prefHeight="62.0" prefWidth="481.0">
+      <HBox alignment="TOP_CENTER" prefHeight="0.0" prefWidth="608.0">
          <children>
-            <Label text="Bear HP">
+            <Label fx:id="bearName" text="Bear HP">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
@@ -54,7 +54,7 @@
                </HBox.margin></Rectangle>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="120.0" stroke="BLACK" strokeType="INSIDE" width="120.0" />
          </children></HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="CENTER" prefHeight="35.0" prefWidth="608.0">
          <children>
             <Button fx:id="attackButton" mnemonicParsing="false" onAction="#Attack" text="Attack">
                <HBox.margin>
@@ -70,7 +70,7 @@
                </font>
             </Button>
          </children></HBox>
-      <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="TOP_RIGHT" prefHeight="27.0" prefWidth="608.0">
          <children>
             <Label text="Heal:">
                <HBox.margin>
@@ -88,8 +88,9 @@
          <children>
             <VBox prefHeight="178.0" prefWidth="244.0">
                <children>
-                  <Label fx:id="strike" />
-                  <Label fx:id="choice" />
+                  <TextArea fx:id="welcome" editable="false" prefHeight="78.0" prefWidth="244.0" text="Welcome to the game. You have to fight 9 bears to make it out alive. Choose your opponent by clicking a button to your right." wrapText="true" />
+                  <Label fx:id="strike" translateY="-70.0" />
+                  <Label fx:id="choice" translateY="-70.0" />
                </children>
                <HBox.margin>
                   <Insets right="100.0" />
@@ -110,18 +111,17 @@
                   <Insets right="10.0" />
                </HBox.margin>
                <children>
-                  <Button mnemonicParsing="false" prefHeight="135.0" prefWidth="180.0" />
-                  <Button mnemonicParsing="false" prefHeight="135.0" prefWidth="180.0" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" prefHeight="135.0" prefWidth="180.0" GridPane.rowIndex="2" />
-                  <Button mnemonicParsing="false" prefHeight="135.0" prefWidth="180.0" GridPane.columnIndex="1" />
-                  <Button mnemonicParsing="false" prefHeight="135.0" prefWidth="180.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" prefHeight="135.0" prefWidth="180.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Button mnemonicParsing="false" prefHeight="135.0" prefWidth="180.0" GridPane.columnIndex="2" />
-                  <Button mnemonicParsing="false" prefHeight="135.0" prefWidth="180.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" prefHeight="135.0" prefWidth="180.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Button fx:id="button00" mnemonicParsing="false" onAction="#useButton00" prefHeight="135.0" prefWidth="180.0" />
+                  <Button fx:id="button01" mnemonicParsing="false" prefHeight="135.0" prefWidth="180.0" GridPane.rowIndex="1" />
+                  <Button fx:id="button02" mnemonicParsing="false" prefHeight="135.0" prefWidth="180.0" GridPane.rowIndex="2" />
+                  <Button fx:id="button10" mnemonicParsing="false" prefHeight="135.0" prefWidth="180.0" GridPane.columnIndex="1" />
+                  <Button fx:id="button11" mnemonicParsing="false" prefHeight="135.0" prefWidth="180.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button fx:id="button12" mnemonicParsing="false" prefHeight="135.0" prefWidth="180.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Button fx:id="button20" mnemonicParsing="false" prefHeight="135.0" prefWidth="180.0" GridPane.columnIndex="2" />
+                  <Button fx:id="button21" mnemonicParsing="false" prefHeight="135.0" prefWidth="180.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Button fx:id="button22" mnemonicParsing="false" prefHeight="135.0" prefWidth="180.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </children></HBox>
    </children>
 </VBox>
-
