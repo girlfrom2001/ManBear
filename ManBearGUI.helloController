@@ -183,6 +183,7 @@ public class HelloController {
         bearhealth = Integer.valueOf(bear.getHP());
         Min = bear.getMin();
         Max = bear.getMax();
+        button00.setStyle("-fx-background-color: #000000;");
      }
 
     @FXML
@@ -197,6 +198,7 @@ public class HelloController {
         bearhealth = Integer.valueOf(bear.getHP());
         Min = bear.getMin();
         Max = bear.getMax();
+        button01.setStyle("-fx-background-color: #000000;");
     }
 
     @FXML
@@ -211,6 +213,7 @@ public class HelloController {
         bearhealth = Integer.valueOf(bear.getHP());
         Min = bear.getMin();
         Max = bear.getMax();
+        button02.setStyle("-fx-background-color: #000000;");
     }
 
     @FXML
@@ -225,6 +228,7 @@ public class HelloController {
         bearhealth = Integer.valueOf(bear.getHP());
         Min = bear.getMin();
         Max = bear.getMax();
+        button10.setStyle("-fx-background-color: #000000;");
     }
 
     @FXML
@@ -239,6 +243,7 @@ public class HelloController {
         bearhealth = Integer.valueOf(bear.getHP());
         Min = bear.getMin();
         Max = bear.getMax();
+        button11.setStyle("-fx-background-color: #000000;");
     }
 
     @FXML
@@ -253,6 +258,7 @@ public class HelloController {
         bearhealth = Integer.valueOf(bear.getHP());
         Min = bear.getMin();
         Max = bear.getMax();
+        button12.setStyle("-fx-background-color: #000000;");
     }
 
     @FXML
@@ -267,6 +273,7 @@ public class HelloController {
         bearhealth = Integer.valueOf(bear.getHP());
         Min = bear.getMin();
         Max = bear.getMax();
+        button20.setStyle("-fx-background-color: #000000;");
     }
 
     @FXML
@@ -281,6 +288,7 @@ public class HelloController {
         bearhealth = Integer.valueOf(bear.getHP());
         Min = bear.getMin();
         Max = bear.getMax();
+        button21.setStyle("-fx-background-color: #000000;");
     }
 
     @FXML
@@ -295,5 +303,6 @@ public class HelloController {
         bearhealth = Integer.valueOf(bear.getHP());
         Min = bear.getMin();
         Max = bear.getMax();
+        button22.setStyle("-fx-background-color: #000000;");
     }
     }
