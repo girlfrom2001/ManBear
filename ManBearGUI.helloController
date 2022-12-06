@@ -16,6 +16,8 @@ import static edu.arapahoe.csc1060.mvb.gui.manvsbeargui.launcher.launcher.bo.Man
 
 public class HelloController {
     Bear[][] bears = new Bear[3][3];
+    Player user = new Player("player", 500, 500, 50, 100, true);
+
 
     @FXML
     private Label HPreset;
@@ -61,14 +63,11 @@ public class HelloController {
         // man bear launcher code
         playerName.setText("Luna");
         String player = String.valueOf(playerName);
-        user = new Player(player, 500, 500, 50, 100, true);
         HPreset.setText(String.valueOf(user.getHP()));
         Bear bear1 = new Bear("Fate", 500, 500, 50, 100);
         Bear bear2 = new Bear("Destiny", 300, 300, 10, 50);
         bears[0][0] = bear1;
         bears[1][0] = bear2;
-//        bearName.setText(bear2.getName());
-//        bear.setText(String.valueOf(bear2.getHP()));
         attackButton.setDisable(true);
         healButton.setDisable(true);
 
@@ -91,28 +90,63 @@ public class HelloController {
     }
 
     Random rand = new Random();
-    int reset = 500;
-    int HP = 500;
-    int bearhealth = 500;
+    int reset = user.heal();
+    int HP = user.getHP();
+    int bearhealth;
+    int Min = 1;
+    int Max = user.heal();
 
+    protected void enableButtons() {
+        button00.setDisable(false);
+        button01.setDisable(false);
+        button02.setDisable(false);
+        button10.setDisable(false);
+        button11.setDisable(false);
+        button12.setDisable(false);
+        button20.setDisable(false);
+        button21.setDisable(false);
+        button22.setDisable(false);
+    }
+
+    protected void disableButtons() {
+        button00.setDisable(true);
+        button01.setDisable(true);
+        button02.setDisable(true);
+        button10.setDisable(true);
+        button11.setDisable(true);
+        button12.setDisable(true);
+        button20.setDisable(true);
+        button21.setDisable(true);
+        button22.setDisable(true);
+    }
 
     @FXML
     protected void Attack() {
         welcome.setVisible(false);
         int hit = user.attack();
-        int attack = rand.nextInt(50, 101);
+        int attack = rand.nextInt(Min, Max);
             strike.setText("You strike " + hit + " to the bear.");
         bearHealth.setText(String.valueOf(bearhealth = bearhealth - hit));
             if (bearhealth <= 0) {
                 bearHealth.setText("0");
                 attackButton.setDisable(true);
                 healButton.setDisable(true);
+                welcome.setVisible(true);
+                enableButtons();
+                choice.setText("");
+                strike.setText("");
+                welcome.setText("You strike " + hit + " to the bear. You've successfully defeated the bear!");
+            } else if (bearhealth >= 0 && HP >= 0) {
+                choice.setText("The bear attacks with a strength of " + attack + ".");
+                HPreset.setText(String.valueOf(HP = HP - attack));
             }
-            choice.setText("The bear attacks with a strength of " + attack + ".");
-            HPreset.setText(String.valueOf(HP = HP - attack));
             if (HP <= 0) {
                 HPreset.setText("0");
                 attackButton.setDisable(true);
+                welcome.setVisible(true);
+                choice.setText("");
+                strike.setText("");
+                welcome.setText("The bear was merciless and you died!" + "\nThe bear attacks with a strength of " +attack+ ".");
             }
     }
 
@@ -133,18 +167,13 @@ public class HelloController {
         attackButton.setDisable(false);
         healButton.setDisable(false);
         button00.setStyle("-fx-background-color: #808080;");
-        button00.setDisable(true);
-        button01.setDisable(true);
-        button02.setDisable(true);
-        button10.setDisable(true);
-        button11.setDisable(true);
-        button12.setDisable(true);
-        button20.setDisable(true);
-        button21.setDisable(true);
-        button22.setDisable(true);
+        disableButtons();
         Bear bear = bears[0][0];
         bearName.setText(bear.getName());
         bearHealth.setText(String.valueOf(bear.getHP()));
+        bearhealth = Integer.valueOf(bear.getHP());
+        Min = bear.getMin();
+        Max = bear.getMax();
      }
 
     @FXML
@@ -152,15 +181,7 @@ public class HelloController {
         attackButton.setDisable(false);
         healButton.setDisable(false);
         button01.setStyle("-fx-background-color: #808080;");
-        button00.setDisable(true);
-        button01.setDisable(true);
-        button02.setDisable(true);
-        button10.setDisable(true);
-        button11.setDisable(true);
-        button12.setDisable(true);
-        button20.setDisable(true);
-        button21.setDisable(true);
-        button22.setDisable(true);
+        disableButtons();
     }
 
     @FXML
@@ -168,15 +189,7 @@ public class HelloController {
         attackButton.setDisable(false);
         healButton.setDisable(false);
         button02.setStyle("-fx-background-color: #808080;");
-        button00.setDisable(true);
-        button01.setDisable(true);
-        button02.setDisable(true);
-        button10.setDisable(true);
-        button11.setDisable(true);
-        button12.setDisable(true);
-        button20.setDisable(true);
-        button21.setDisable(true);
-        button22.setDisable(true);
+        disableButtons();
     }
 
     @FXML
@@ -184,18 +197,13 @@ public class HelloController {
         attackButton.setDisable(false);
         healButton.setDisable(false);
         button10.setStyle("-fx-background-color: #808080;");
-        button00.setDisable(true);
-        button01.setDisable(true);
-        button02.setDisable(true);
-        button10.setDisable(true);
-        button11.setDisable(true);
-        button12.setDisable(true);
-        button20.setDisable(true);
-        button21.setDisable(true);
-        button22.setDisable(true);
+        disableButtons();
         Bear bear = bears[1][0];
         bearName.setText(bear.getName());
         bearHealth.setText(String.valueOf(bear.getHP()));
+        bearhealth = Integer.valueOf(bear.getHP());
+        Min = bear.getMin();
+        Max = bear.getMax();
     }
 
     @FXML
@@ -203,15 +211,7 @@ public class HelloController {
         attackButton.setDisable(false);
         healButton.setDisable(false);
         button11.setStyle("-fx-background-color: #808080;");
-        button00.setDisable(true);
-        button01.setDisable(true);
-        button02.setDisable(true);
-        button10.setDisable(true);
-        button11.setDisable(true);
-        button12.setDisable(true);
-        button20.setDisable(true);
-        button21.setDisable(true);
-        button22.setDisable(true);
+        disableButtons();
     }
 
     @FXML
@@ -219,15 +219,7 @@ public class HelloController {
         attackButton.setDisable(false);
         healButton.setDisable(false);
         button12.setStyle("-fx-background-color: #808080;");
-        button00.setDisable(true);
-        button01.setDisable(true);
-        button02.setDisable(true);
-        button10.setDisable(true);
-        button11.setDisable(true);
-        button12.setDisable(true);
-        button20.setDisable(true);
-        button21.setDisable(true);
-        button22.setDisable(true);
+        disableButtons();
     }
 
     @FXML
@@ -235,15 +227,7 @@ public class HelloController {
         attackButton.setDisable(false);
         healButton.setDisable(false);
         button20.setStyle("-fx-background-color: #808080;");
-        button00.setDisable(true);
-        button01.setDisable(true);
-        button02.setDisable(true);
-        button10.setDisable(true);
-        button11.setDisable(true);
-        button12.setDisable(true);
-        button20.setDisable(true);
-        button21.setDisable(true);
-        button22.setDisable(true);
+        disableButtons();
     }
 
     @FXML
@@ -251,15 +235,7 @@ public class HelloController {
         attackButton.setDisable(false);
         healButton.setDisable(false);
         button21.setStyle("-fx-background-color: #808080;");
-        button00.setDisable(true);
-        button01.setDisable(true);
-        button02.setDisable(true);
-        button10.setDisable(true);
-        button11.setDisable(true);
-        button12.setDisable(true);
-        button20.setDisable(true);
-        button21.setDisable(true);
-        button22.setDisable(true);
+        disableButtons();
     }
 
     @FXML
@@ -267,15 +243,6 @@ public class HelloController {
         attackButton.setDisable(false);
         healButton.setDisable(false);
         button22.setStyle("-fx-background-color: #808080;");
-        button00.setDisable(true);
-        button01.setDisable(true);
-        button02.setDisable(true);
-        button10.setDisable(true);
-        button11.setDisable(true);
-        button12.setDisable(true);
-        button20.setDisable(true);
-        button21.setDisable(true);
-        button22.setDisable(true);
+        disableButtons();
     }
-
     }
