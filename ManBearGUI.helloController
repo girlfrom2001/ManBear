@@ -55,10 +55,8 @@ public class HelloController {
     private Bear activeBear;
 
     Random rand = new Random();
-    int HP = user.getHP();
+    int HP ;
     int bearhealth;
-    int Min = 1;
-    int Max = user.heal();
     int lifes = user.getLifes();
 
     @FXML
@@ -107,48 +105,57 @@ public class HelloController {
     protected void enableButtons() {
         if (bears[0][0].getHP() <= 0) {
             button00.setDisable(true);
+            button00.setStyle("-fx-background-color: #000000;");
         } else {
             button00.setDisable(false);
         }
         if (bears[0][1].getHP() <= 0) {
             button01.setDisable(true);
+            button01.setStyle("-fx-background-color: #000000;");
         } else {
             button01.setDisable(true);
         }
         if (bears[0][2].getHP() <= 0) {
             button02.setDisable(true);
+            button02.setStyle("-fx-background-color: #000000;");
         } else {
             button02.setDisable(false);
         }
         if (bears[1][0].getHP() <= 0) {
             button10.setDisable(true);
+            button10.setStyle("-fx-background-color: #000000;");
         } else {
             button10.setDisable(false);
         }
         if (bears[1][1].getHP() <= 0) {
             button11.setDisable(true);
+            button11.setStyle("-fx-background-color: #000000;");
         } else {
             button11.setDisable(false);
         }
         if (bears[1][2].getHP() <= 0) {
             button12.setDisable(true);
+            button12.setStyle("-fx-background-color: #000000;");
         } else {
             button12.setDisable(false);
         }
         if (bears[2][0].getHP() <= 0) {
             button20.setDisable(true);
+            button20.setStyle("-fx-background-color: #000000;");
         } else {
             button20.setDisable(false);
         }
         if (bears[2][1].getHP() <= 0) {
             button21.setDisable(true);
+            button21.setStyle("-fx-background-color: #000000;");
         } else {
             button21.setDisable(false);
         }
         if (bears[2][2].getHP() <= 0) {
             button22.setDisable(true);
+            button22.setStyle("-fx-background-color: #000000;");
         } else {
-            button22.setDisable(true);
+            button22.setDisable(false);
         }
     }
 
@@ -167,40 +174,38 @@ public class HelloController {
 
     @FXML
     protected void Attack() {
+        int hitting = activeBear.attack();
+        int striking = user.attack();
         welcome.setVisible(false);
         if (activeBear.getHP() > 0) {
-            user.attack();
-            activeBear.attack();
-            activeBear.updateHP();
-            strike.setText("You strike " + user.attack() + " to the bear.");
+            activeBear.updateHP(striking);
             bearHealth.setText(String.valueOf(activeBear.getHP()));
+            strike.setText("You strike " + striking + " to the bear.");
         }
         if (activeBear.getHP() < 0) {
-            bearHealth.setText(String.valueOf(0));
             attackButton.setDisable(true);
             healButton.setDisable(true);
             welcome.setVisible(true);
             choice.setText("");
             strike.setText("");
-            welcome.setText("You strike " + user.attack() + " to the bear. You've successfully defeated the bear!");
+            welcome.setText("You strike " + striking + " to the bear. You've successfully defeated the bear!");
+            bearHealth.setText(String.valueOf(0));
             enableButtons();
         } else if (activeBear.getHP() >= 0 && user.getHP() >= 0) {
-            activeBear.attack();
-            choice.setText("The bear attacks with a strength of " + activeBear.attack() + ".");
-            user.updateHP();
+            choice.setText("The bear attacks with a strength of " + hitting + ".");
+            user.updateHP(hitting);
             HPreset.setText(String.valueOf(user.getHP()));
         }
         if (user.getHP() <= 0) {
-            HPreset.setText(String.valueOf(0));
             attackButton.setDisable(true);
             welcome.setVisible(true);
             choice.setText("");
             strike.setText("");
-            activeBear.attack();
-            welcome.setText("The bear attacks with a strength of " + activeBear.attack() + ".\nThe bear was merciless and you died!");
+            user.updateHP(hitting);
+            HPreset.setText(String.valueOf(0));
+            welcome.setText("The bear attacks with a strength of " + hitting + ".\nThe bear was merciless and you died!");
             disableButtons();
-        }
-        if (user.getHP() < 0 || activeBear.getHP() < 0) {
+        } else if (user.getHP() < 0 || activeBear.getHP() < 0) {
             attackButton.setDisable(true);
             healButton.setDisable(true);
             enableButtons();
@@ -229,12 +234,6 @@ public class HelloController {
         activeBear = bears[0][0];
         bearName.setText(activeBear.getName());
         bearHealth.setText(String.valueOf(activeBear.getHP()));
-        bearhealth = Integer.valueOf(activeBear.getHP());
-//        bear.attack();
-        Min = activeBear.getMin();
-        Max = activeBear.getMax();
-        button00.setStyle("-fx-background-color: #000000;");
-
     }
 
     @FXML
@@ -246,10 +245,6 @@ public class HelloController {
         activeBear = bears[0][1];
         bearName.setText(activeBear.getName());
         bearHealth.setText(String.valueOf(activeBear.getHP()));
-        bearhealth = Integer.valueOf(activeBear.getHP());
-        Min = activeBear.getMin();
-        Max = activeBear.getMax();
-        button01.setStyle("-fx-background-color: #000000;");
     }
 
     @FXML
@@ -261,10 +256,6 @@ public class HelloController {
         activeBear = bears[0][2];
         bearName.setText(activeBear.getName());
         bearHealth.setText(String.valueOf(activeBear.getHP()));
-        bearhealth = Integer.valueOf(activeBear.getHP());
-        Min = activeBear.getMin();
-        Max = activeBear.getMax();
-        button02.setStyle("-fx-background-color: #000000;");
     }
 
     @FXML
@@ -276,10 +267,6 @@ public class HelloController {
         activeBear = bears[1][0];
         bearName.setText(activeBear.getName());
         bearHealth.setText(String.valueOf(activeBear.getHP()));
-        bearhealth = Integer.valueOf(activeBear.getHP());
-        Min = activeBear.getMin();
-        Max = activeBear.getMax();
-        button10.setStyle("-fx-background-color: #000000;");
     }
 
     @FXML
@@ -291,10 +278,6 @@ public class HelloController {
         activeBear = bears[1][1];
         bearName.setText(activeBear.getName());
         bearHealth.setText(String.valueOf(activeBear.getHP()));
-        bearhealth = Integer.valueOf(activeBear.getHP());
-        Min = activeBear.getMin();
-        Max = activeBear.getMax();
-        button11.setStyle("-fx-background-color: #000000;");
     }
 
     @FXML
@@ -306,10 +289,6 @@ public class HelloController {
         activeBear = bears[1][2];
         bearName.setText(activeBear.getName());
         bearHealth.setText(String.valueOf(activeBear.getHP()));
-        bearhealth = Integer.valueOf(activeBear.getHP());
-        Min = activeBear.getMin();
-        Max = activeBear.getMax();
-        button12.setStyle("-fx-background-color: #000000;");
     }
 
     @FXML
@@ -321,10 +300,6 @@ public class HelloController {
         activeBear = bears[2][0];
         bearName.setText(activeBear.getName());
         bearHealth.setText(String.valueOf(activeBear.getHP()));
-        bearhealth = Integer.valueOf(activeBear.getHP());
-        Min = activeBear.getMin();
-        Max = activeBear.getMax();
-        button20.setStyle("-fx-background-color: #000000;");
     }
 
     @FXML
@@ -336,10 +311,6 @@ public class HelloController {
         activeBear = bears[2][1];
         bearName.setText(activeBear.getName());
         bearHealth.setText(String.valueOf(activeBear.getHP()));
-        bearhealth = Integer.valueOf(activeBear.getHP());
-        Min = activeBear.getMin();
-        Max = activeBear.getMax();
-        button21.setStyle("-fx-background-color: #000000;");
     }
 
     @FXML
@@ -351,9 +322,5 @@ public class HelloController {
         activeBear = bears[2][2];
         bearName.setText(activeBear.getName());
         bearHealth.setText(String.valueOf(activeBear.getHP()));
-        bearhealth = Integer.valueOf(activeBear.getHP());
-        Min = activeBear.getMin();
-        Max = activeBear.getMax();
-        button22.setStyle("-fx-background-color: #000000;");
     }
 }
