@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class HelloController {
     Bear[][] bears = new Bear[3][3];
-    Player user = new Player("Luna", 500, 500, 50, 100, 5);
+    Player user = new Player("Player", 500, 500, 50, 100, 3);
 
     @FXML
     private Label HPreset;
@@ -52,6 +52,15 @@ public class HelloController {
     @FXML
     private Button button22;
 
+    private Bear activeBear;
+
+    Random rand = new Random();
+    int HP = user.getHP();
+    int bearhealth;
+    int Min = 1;
+    int Max = user.heal();
+    int lifes = user.getLifes();
+
     @FXML
     private void initialize() {
         // man bear launcher code
@@ -81,39 +90,66 @@ public class HelloController {
 
         Random rand = new Random();
         for (int i = 0; i < 1000; i++) {
-        int row = rand.nextInt(3);
-        int col = rand.nextInt(3);
+            int row = rand.nextInt(3);
+            int col = rand.nextInt(3);
 
-        int row2 = rand.nextInt(3);
-        int col2 = rand.nextInt(3);
+            int row2 = rand.nextInt(3);
+            int col2 = rand.nextInt(3);
 
-        Bear tempBear = bears[row][col];
-        bears[row][col] = bears[row2][col2];
-        bears[row2][col2] = tempBear;
+            Bear tempBear = bears[row][col];
+            bears[row][col] = bears[row2][col2];
+            bears[row2][col2] = tempBear;
+        }
     }
 
-//        if (bearHP == 0 || HP == 0) { //change grid color when bear is dead
-//            button00.setStyle("-fx-background-color: #808080;");
-//        }
-    }
 
-    Random rand = new Random();
-    int HP = user.getHP();
-    int bearhealth;
-    int Min = 1;
-    int Max = user.heal();
-    int lifes = user.getLifes();
 
     protected void enableButtons() {
-        button00.setDisable(false);
-        button01.setDisable(false);
-        button02.setDisable(false);
-        button10.setDisable(false);
-        button11.setDisable(false);
-        button12.setDisable(false);
-        button20.setDisable(false);
-        button21.setDisable(false);
-        button22.setDisable(false);
+        if (bears[0][0].getHP() <= 0) {
+            button00.setDisable(true);
+        } else {
+            button00.setDisable(false);
+        }
+        if (bears[0][1].getHP() <= 0) {
+            button01.setDisable(true);
+        } else {
+            button01.setDisable(true);
+        }
+        if (bears[0][2].getHP() <= 0) {
+            button02.setDisable(true);
+        } else {
+            button02.setDisable(false);
+        }
+        if (bears[1][0].getHP() <= 0) {
+            button10.setDisable(true);
+        } else {
+            button10.setDisable(false);
+        }
+        if (bears[1][1].getHP() <= 0) {
+            button11.setDisable(true);
+        } else {
+            button11.setDisable(false);
+        }
+        if (bears[1][2].getHP() <= 0) {
+            button12.setDisable(true);
+        } else {
+            button12.setDisable(false);
+        }
+        if (bears[2][0].getHP() <= 0) {
+            button20.setDisable(true);
+        } else {
+            button20.setDisable(false);
+        }
+        if (bears[2][1].getHP() <= 0) {
+            button21.setDisable(true);
+        } else {
+            button21.setDisable(false);
+        }
+        if (bears[2][2].getHP() <= 0) {
+            button22.setDisable(true);
+        } else {
+            button22.setDisable(true);
+        }
     }
 
     protected void disableButtons() {
@@ -132,43 +168,56 @@ public class HelloController {
     @FXML
     protected void Attack() {
         welcome.setVisible(false);
-        int hit = user.attack();
-        int attack = rand.nextInt(Min, Max);
-            strike.setText("You strike " + hit + " to the bear.");
-        bearHealth.setText(String.valueOf(bearhealth = bearhealth - hit));
-            if (bearhealth <= 0) {
-                bearHealth.setText("0");
-                attackButton.setDisable(true);
-                healButton.setDisable(true);
-                welcome.setVisible(true);
-                enableButtons();
-                choice.setText("");
-                strike.setText("");
-                welcome.setText("You strike " + hit + " to the bear. You've successfully defeated the bear!");
-            } else if (bearhealth >= 0 && HP >= 0) {
-                choice.setText("The bear attacks with a strength of " + attack + ".");
-                HPreset.setText(String.valueOf(HP = HP - attack));
-            }
-            if (HP <= 0) {
-                HPreset.setText("0");
-                attackButton.setDisable(true);
-                welcome.setVisible(true);
-                choice.setText("");
-                strike.setText("");
-                welcome.setText("The bear attacks with a strength of " +attack+ ".\nThe bear was merciless and you died!");
-            }
+        if (activeBear.getHP() > 0) {
+            user.attack();
+            activeBear.attack();
+            activeBear.updateHP();
+            strike.setText("You strike " + user.attack() + " to the bear.");
+            bearHealth.setText(String.valueOf(activeBear.getHP()));
+        }
+        if (activeBear.getHP() < 0) {
+            bearHealth.setText(String.valueOf(0));
+            attackButton.setDisable(true);
+            healButton.setDisable(true);
+            welcome.setVisible(true);
+            choice.setText("");
+            strike.setText("");
+            welcome.setText("You strike " + user.attack() + " to the bear. You've successfully defeated the bear!");
+            enableButtons();
+        } else if (activeBear.getHP() >= 0 && user.getHP() >= 0) {
+            activeBear.attack();
+            choice.setText("The bear attacks with a strength of " + activeBear.attack() + ".");
+            user.updateHP();
+            HPreset.setText(String.valueOf(user.getHP()));
+        }
+        if (user.getHP() <= 0) {
+            HPreset.setText(String.valueOf(0));
+            attackButton.setDisable(true);
+            welcome.setVisible(true);
+            choice.setText("");
+            strike.setText("");
+            activeBear.attack();
+            welcome.setText("The bear attacks with a strength of " + activeBear.attack() + ".\nThe bear was merciless and you died!");
+            disableButtons();
+        }
+        if (user.getHP() < 0 || activeBear.getHP() < 0) {
+            attackButton.setDisable(true);
+            healButton.setDisable(true);
+            enableButtons();
+        }
     }
 
     @FXML
     protected void Heal() {
         welcome.setVisible(false);
-        HPreset.setText(String.valueOf(user.heal()));
-        strike.setText(user.getName()+ " heals and now has "+user.getHP()+" HP.");
+        user.heal();
+        HPreset.setText(String.valueOf(user.getHP()));
+        strike.setText(user.getName() + " heals and now has " + user.getHP() + " HP.");
         choice.setText("");
-        healCounter.setText(String.valueOf(lifes = lifes - 1));
+        lifes = lifes - 1;
+        healCounter.setText(String.valueOf(lifes));
         healButton.setDisable(true);
         attackButton.setDisable(false);
-
     }
 
     @FXML
@@ -177,14 +226,16 @@ public class HelloController {
         healButton.setDisable(false);
         button00.setStyle("-fx-background-color: #808080;");
         disableButtons();
-        Bear bear = bears[0][0];
-        bearName.setText(bear.getName());
-        bearHealth.setText(String.valueOf(bear.getHP()));
-        bearhealth = Integer.valueOf(bear.getHP());
-        Min = bear.getMin();
-        Max = bear.getMax();
+        activeBear = bears[0][0];
+        bearName.setText(activeBear.getName());
+        bearHealth.setText(String.valueOf(activeBear.getHP()));
+        bearhealth = Integer.valueOf(activeBear.getHP());
+//        bear.attack();
+        Min = activeBear.getMin();
+        Max = activeBear.getMax();
         button00.setStyle("-fx-background-color: #000000;");
-     }
+
+    }
 
     @FXML
     protected void useButton01() {
@@ -192,12 +243,12 @@ public class HelloController {
         healButton.setDisable(false);
         button01.setStyle("-fx-background-color: #808080;");
         disableButtons();
-        Bear bear = bears[0][1];
-        bearName.setText(bear.getName());
-        bearHealth.setText(String.valueOf(bear.getHP()));
-        bearhealth = Integer.valueOf(bear.getHP());
-        Min = bear.getMin();
-        Max = bear.getMax();
+        activeBear = bears[0][1];
+        bearName.setText(activeBear.getName());
+        bearHealth.setText(String.valueOf(activeBear.getHP()));
+        bearhealth = Integer.valueOf(activeBear.getHP());
+        Min = activeBear.getMin();
+        Max = activeBear.getMax();
         button01.setStyle("-fx-background-color: #000000;");
     }
 
@@ -207,12 +258,12 @@ public class HelloController {
         healButton.setDisable(false);
         button02.setStyle("-fx-background-color: #808080;");
         disableButtons();
-        Bear bear = bears[0][2];
-        bearName.setText(bear.getName());
-        bearHealth.setText(String.valueOf(bear.getHP()));
-        bearhealth = Integer.valueOf(bear.getHP());
-        Min = bear.getMin();
-        Max = bear.getMax();
+        activeBear = bears[0][2];
+        bearName.setText(activeBear.getName());
+        bearHealth.setText(String.valueOf(activeBear.getHP()));
+        bearhealth = Integer.valueOf(activeBear.getHP());
+        Min = activeBear.getMin();
+        Max = activeBear.getMax();
         button02.setStyle("-fx-background-color: #000000;");
     }
 
@@ -222,12 +273,12 @@ public class HelloController {
         healButton.setDisable(false);
         button10.setStyle("-fx-background-color: #808080;");
         disableButtons();
-        Bear bear = bears[1][0];
-        bearName.setText(bear.getName());
-        bearHealth.setText(String.valueOf(bear.getHP()));
-        bearhealth = Integer.valueOf(bear.getHP());
-        Min = bear.getMin();
-        Max = bear.getMax();
+        activeBear = bears[1][0];
+        bearName.setText(activeBear.getName());
+        bearHealth.setText(String.valueOf(activeBear.getHP()));
+        bearhealth = Integer.valueOf(activeBear.getHP());
+        Min = activeBear.getMin();
+        Max = activeBear.getMax();
         button10.setStyle("-fx-background-color: #000000;");
     }
 
@@ -237,12 +288,12 @@ public class HelloController {
         healButton.setDisable(false);
         button11.setStyle("-fx-background-color: #808080;");
         disableButtons();
-        Bear bear = bears[1][1];
-        bearName.setText(bear.getName());
-        bearHealth.setText(String.valueOf(bear.getHP()));
-        bearhealth = Integer.valueOf(bear.getHP());
-        Min = bear.getMin();
-        Max = bear.getMax();
+        activeBear = bears[1][1];
+        bearName.setText(activeBear.getName());
+        bearHealth.setText(String.valueOf(activeBear.getHP()));
+        bearhealth = Integer.valueOf(activeBear.getHP());
+        Min = activeBear.getMin();
+        Max = activeBear.getMax();
         button11.setStyle("-fx-background-color: #000000;");
     }
 
@@ -252,12 +303,12 @@ public class HelloController {
         healButton.setDisable(false);
         button12.setStyle("-fx-background-color: #808080;");
         disableButtons();
-        Bear bear = bears[1][2];
-        bearName.setText(bear.getName());
-        bearHealth.setText(String.valueOf(bear.getHP()));
-        bearhealth = Integer.valueOf(bear.getHP());
-        Min = bear.getMin();
-        Max = bear.getMax();
+        activeBear = bears[1][2];
+        bearName.setText(activeBear.getName());
+        bearHealth.setText(String.valueOf(activeBear.getHP()));
+        bearhealth = Integer.valueOf(activeBear.getHP());
+        Min = activeBear.getMin();
+        Max = activeBear.getMax();
         button12.setStyle("-fx-background-color: #000000;");
     }
 
@@ -267,12 +318,12 @@ public class HelloController {
         healButton.setDisable(false);
         button20.setStyle("-fx-background-color: #808080;");
         disableButtons();
-        Bear bear = bears[2][0];
-        bearName.setText(bear.getName());
-        bearHealth.setText(String.valueOf(bear.getHP()));
-        bearhealth = Integer.valueOf(bear.getHP());
-        Min = bear.getMin();
-        Max = bear.getMax();
+        activeBear = bears[2][0];
+        bearName.setText(activeBear.getName());
+        bearHealth.setText(String.valueOf(activeBear.getHP()));
+        bearhealth = Integer.valueOf(activeBear.getHP());
+        Min = activeBear.getMin();
+        Max = activeBear.getMax();
         button20.setStyle("-fx-background-color: #000000;");
     }
 
@@ -282,12 +333,12 @@ public class HelloController {
         healButton.setDisable(false);
         button21.setStyle("-fx-background-color: #808080;");
         disableButtons();
-        Bear bear = bears[2][1];
-        bearName.setText(bear.getName());
-        bearHealth.setText(String.valueOf(bear.getHP()));
-        bearhealth = Integer.valueOf(bear.getHP());
-        Min = bear.getMin();
-        Max = bear.getMax();
+        activeBear = bears[2][1];
+        bearName.setText(activeBear.getName());
+        bearHealth.setText(String.valueOf(activeBear.getHP()));
+        bearhealth = Integer.valueOf(activeBear.getHP());
+        Min = activeBear.getMin();
+        Max = activeBear.getMax();
         button21.setStyle("-fx-background-color: #000000;");
     }
 
@@ -297,12 +348,12 @@ public class HelloController {
         healButton.setDisable(false);
         button22.setStyle("-fx-background-color: #808080;");
         disableButtons();
-        Bear bear = bears[2][2];
-        bearName.setText(bear.getName());
-        bearHealth.setText(String.valueOf(bear.getHP()));
-        bearhealth = Integer.valueOf(bear.getHP());
-        Min = bear.getMin();
-        Max = bear.getMax();
+        activeBear = bears[2][2];
+        bearName.setText(activeBear.getName());
+        bearHealth.setText(String.valueOf(activeBear.getHP()));
+        bearhealth = Integer.valueOf(activeBear.getHP());
+        Min = activeBear.getMin();
+        Max = activeBear.getMax();
         button22.setStyle("-fx-background-color: #000000;");
     }
-    }
+}
