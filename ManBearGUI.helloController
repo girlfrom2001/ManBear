@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class HelloController {
     Bear[][] bears = new Bear[3][3];
-    Player user = new Player("Player", 500, 500, 50, 100, 3);
+    Player user = new Player("Selene", 500, 500, 50, 100, 3);
 
     @FXML
     private Label HPreset;
@@ -55,8 +55,6 @@ public class HelloController {
     private Bear activeBear;
 
     Random rand = new Random();
-    int HP ;
-    int bearhealth;
     int lifes = user.getLifes();
 
     @FXML
@@ -65,15 +63,15 @@ public class HelloController {
         playerName.setText(user.getName());
         HPreset.setText(String.valueOf(user.getHP()));
         healCounter.setText(String.valueOf(lifes));
-        Bear bear1 = new Bear("Fate", 500, 500, 50, 100);
-        Bear bear2 = new Bear("Destiny", 300, 300, 10, 50);
-        Bear bear3 = new Bear("Joey", 300, 300, 10, 50);
-        Bear bear4 = new Bear("Clay", 300, 300, 10, 50);
-        Bear bear5 = new Bear("Kiley", 300, 300, 10, 50);
-        Bear bear6 = new Bear("Nick", 300, 300, 10, 50);
-        Bear bear7 = new Bear("Abby", 300, 300, 10, 50);
-        Bear bear8 = new Bear("Jeremiah", 300, 300, 10, 50);
-        Bear bear9 = new Bear("Savannah", 300, 300, 10, 50);
+        Bear bear1 = new Bear("Fate the Bear", 500, 500, 50, 100);
+        Bear bear2 = new Bear("Destiny the Bear", 500, 500, 10, 50);
+        Bear bear3 = new Bear("Joey the Bear", 400, 400, 40, 90);
+        Bear bear4 = new Bear("Clay the Bear", 400, 400, 10, 20);
+        Bear bear5 = new Bear("Kiley the Bear", 400, 400, 50, 100);
+        Bear bear6 = new Bear("Nick the Bear", 400, 400, 100, 150);
+        Bear bear7 = new Bear("Abby the Bear", 400, 400, 150, 250);
+        Bear bear8 = new Bear("Jeremiah the Bear", 200, 200, 50, 80);
+        Bear bear9 = new Bear("Savannah the Bear", 200, 200, 20, 30);
         bears[0][0] = bear1;
         bears[0][1] = bear2;
         bears[0][2] = bear3;
@@ -180,7 +178,7 @@ public class HelloController {
         if (activeBear.getHP() > 0) {
             activeBear.updateHP(striking);
             bearHealth.setText(String.valueOf(activeBear.getHP()));
-            strike.setText("You strike " + striking + " to the bear.");
+            strike.setText("You strike " + striking + " to "+activeBear.getName()+ ".");
         }
         if (activeBear.getHP() < 0) {
             attackButton.setDisable(true);
@@ -188,11 +186,11 @@ public class HelloController {
             welcome.setVisible(true);
             choice.setText("");
             strike.setText("");
-            welcome.setText("You strike " + striking + " to the bear. You've successfully defeated the bear!");
+            welcome.setText("You strike " + striking + " to "+activeBear.getName()+ ". You've successfully defeated " +activeBear.getName()+ "!");
             bearHealth.setText(String.valueOf(0));
             enableButtons();
         } else if (activeBear.getHP() >= 0 && user.getHP() >= 0) {
-            choice.setText("The bear attacks with a strength of " + hitting + ".");
+            choice.setText(activeBear.getName()+ " attacks with a strength of " + hitting + ".");
             user.updateHP(hitting);
             HPreset.setText(String.valueOf(user.getHP()));
         }
@@ -203,7 +201,7 @@ public class HelloController {
             strike.setText("");
             user.updateHP(hitting);
             HPreset.setText(String.valueOf(0));
-            welcome.setText("The bear attacks with a strength of " + hitting + ".\nThe bear was merciless and you died!");
+            welcome.setText(activeBear.getName()+ " attacks with a strength of " + hitting + ".\n"+activeBear.getName()+ " was merciless and you died!");
             disableButtons();
         } else if (user.getHP() < 0 || activeBear.getHP() < 0) {
             attackButton.setDisable(true);
@@ -215,14 +213,20 @@ public class HelloController {
     @FXML
     protected void Heal() {
         welcome.setVisible(false);
-        user.heal();
-        HPreset.setText(String.valueOf(user.getHP()));
-        strike.setText(user.getName() + " heals and now has " + user.getHP() + " HP.");
-        choice.setText("");
-        lifes = lifes - 1;
-        healCounter.setText(String.valueOf(lifes));
-        healButton.setDisable(true);
-        attackButton.setDisable(false);
+        if (lifes <= 0) {
+            strike.setText("You ran out of heals. Time to face the bear head-on.");
+            choice.setText("");
+            healButton.setDisable(true);
+        } else {
+            user.heal();
+            HPreset.setText(String.valueOf(user.getHP()));
+            strike.setText(user.getName() + " heals and now has " + user.getHP() + " HP.");
+            choice.setText("");
+            lifes = lifes - 1;
+            healCounter.setText(String.valueOf(lifes));
+            healButton.setDisable(true);
+            attackButton.setDisable(false);
+        }
     }
 
     @FXML
