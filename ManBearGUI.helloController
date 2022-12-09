@@ -3,15 +3,13 @@ package edu.arapahoe.csc1060.mvb.gui.manvsbeargui.launcher.launcher;
 import edu.arapahoe.csc1060.mvb.gui.manvsbeargui.launcher.launcher.bo.Bear;
 import edu.arapahoe.csc1060.mvb.gui.manvsbeargui.launcher.launcher.bo.Player;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 
 import java.util.Random;
 
 public class HelloController {
     Bear[][] bears = new Bear[3][3];
-    Player user = new Player("Selene", 500, 500, 50, 100, 3);
+    Player user = new Player("Selene", 500, 500, 50, 100, 3); // only way to change heals and player name
 
     @FXML
     private Label HPreset;
@@ -54,24 +52,22 @@ public class HelloController {
 
     private Bear activeBear;
 
-    Random rand = new Random();
     int lifes = user.getLifes();
 
     @FXML
     private void initialize() {
-        // man bear launcher code
         playerName.setText(user.getName());
         HPreset.setText(String.valueOf(user.getHP()));
         healCounter.setText(String.valueOf(lifes));
-        Bear bear1 = new Bear("Fate the Bear", 500, 500, 50, 100);
-        Bear bear2 = new Bear("Destiny the Bear", 500, 500, 10, 50);
-        Bear bear3 = new Bear("Joey the Bear", 400, 400, 40, 90);
-        Bear bear4 = new Bear("Clay the Bear", 400, 400, 10, 20);
-        Bear bear5 = new Bear("Kiley the Bear", 400, 400, 50, 100);
-        Bear bear6 = new Bear("Nick the Bear", 400, 400, 100, 150);
-        Bear bear7 = new Bear("Abby the Bear", 400, 400, 150, 250);
-        Bear bear8 = new Bear("Jeremiah the Bear", 200, 200, 50, 80);
-        Bear bear9 = new Bear("Savannah the Bear", 200, 200, 20, 30);
+        Bear bear1 = new Bear("Fate", 500, 500, 50, 100);
+        Bear bear2 = new Bear("Destiny", 500, 500, 10, 50);
+        Bear bear3 = new Bear("Joey", 400, 400, 40, 90);
+        Bear bear4 = new Bear("Clay", 400, 400, 10, 20);
+        Bear bear5 = new Bear("Kiley", 400, 400, 50, 100);
+        Bear bear6 = new Bear("Nick", 400, 400, 100, 150);
+        Bear bear7 = new Bear("Abby", 400, 400, 10, 150);
+        Bear bear8 = new Bear("Jeremiah", 200, 200, 50, 80);
+        Bear bear9 = new Bear("Savannah", 200, 200, 20, 30);
         bears[0][0] = bear1;
         bears[0][1] = bear2;
         bears[0][2] = bear3;
@@ -98,8 +94,6 @@ public class HelloController {
         }
     }
 
-
-
     protected void enableButtons() {
         if (bears[0][0].getHP() <= 0) {
             button00.setDisable(true);
@@ -111,7 +105,7 @@ public class HelloController {
             button01.setDisable(true);
             button01.setStyle("-fx-background-color: #000000;");
         } else {
-            button01.setDisable(true);
+            button01.setDisable(false);
         }
         if (bears[0][2].getHP() <= 0) {
             button02.setDisable(true);
@@ -155,6 +149,7 @@ public class HelloController {
         } else {
             button22.setDisable(false);
         }
+        gameOver();
     }
 
     protected void disableButtons() {
@@ -169,6 +164,25 @@ public class HelloController {
         button22.setDisable(true);
     }
 
+    protected void gameOver() {
+        if (bears[0][0].getHP() <= 0 && bears[0][1].getHP() <= 0 && bears[0][2].getHP() <= 0 && bears[1][0].getHP() <= 0 && bears[1][1].getHP() <= 0 && bears[1][2].getHP() <= 0 && bears[2][0].getHP() <= 0 && bears[2][1].getHP() <= 0 && bears[2][2].getHP() <= 0) {
+            button00.setDisable(true);
+            button01.setDisable(true);
+            button02.setDisable(true);
+            button10.setDisable(true);
+            button11.setDisable(true);
+            button12.setDisable(true);
+            button20.setDisable(true);
+            button21.setDisable(true);
+            button22.setDisable(true);
+            attackButton.setDisable(true);
+            healButton.setDisable(true);
+            welcome.setVisible(true);
+            choice.setText("");
+            strike.setText("");
+            welcome.setText("GAME OVER! You made it out alive!");
+        }
+    }
 
     @FXML
     protected void Attack() {
@@ -234,10 +248,10 @@ public class HelloController {
         attackButton.setDisable(false);
         healButton.setDisable(false);
         button00.setStyle("-fx-background-color: #808080;");
-        disableButtons();
         activeBear = bears[0][0];
         bearName.setText(activeBear.getName());
         bearHealth.setText(String.valueOf(activeBear.getHP()));
+        disableButtons();
     }
 
     @FXML
@@ -245,10 +259,10 @@ public class HelloController {
         attackButton.setDisable(false);
         healButton.setDisable(false);
         button01.setStyle("-fx-background-color: #808080;");
-        disableButtons();
         activeBear = bears[0][1];
         bearName.setText(activeBear.getName());
         bearHealth.setText(String.valueOf(activeBear.getHP()));
+        disableButtons();
     }
 
     @FXML
